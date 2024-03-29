@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import tasksReducer from './store/reducers';
+import TaskInput from './components/TaskInput';
+import TaskList from './components/TaskLists';
+import './App.css'
+const store = createStore(tasksReducer);
 
-function App() {
+const App = () => {
+  // Load tasks from local storage on app initialization
+  useEffect(() => {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+      store.dispatch({ type: 'LOAD_TASKS', payload: JSON.parse(storedTasks) });
+    }
+  }, []);
+
+  // Save tasks to local storage whenever tasks change
+  store.subscribe(() => {
+    const tasks = store.getState().tasks;
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="container mt-5">
+        <h1 className="display-4 mb-4">Todo App</h1>
+        <TaskInput />
+        <TaskList />
+      </div>
+    </Provider>
   );
-}
+};
 
 export default App;

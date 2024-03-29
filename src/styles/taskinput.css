@@ -1,0 +1,25 @@
+/* Add this CSS to your global CSS file or a component-specific CSS file */
+.btn-modern {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: -1px; /* To create seamless border with input */
+    cursor: pointer;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-modern:hover {
+    background-color: #336936; /* Darker green on hover */
+  }
+  
+  .btn-modern:active {
+    background-color: #3e8e41; /* Dark green on click */
+  }
+  
