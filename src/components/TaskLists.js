@@ -1,18 +1,25 @@
-// TaskList.js
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteTask, toggleTask } from '../store/actions';
-import '../styles/tasklist.css'; 
-const TaskList = () => {
-  const tasks = useSelector(state => state.tasks);
+import '../styles/tasklist.css';
+
+const TaskList = ({ tasks, setTasks, saveTasksToLocalStorage }) => {
   const dispatch = useDispatch();
 
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask(taskId));
+    const updatedTasks = tasks.filter(task => task.id !== taskId);
+    setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   const handleToggleTask = (taskId) => {
     dispatch(toggleTask(taskId));
+    const updatedTasks = tasks.map(task =>
+      task.id === taskId ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   return (

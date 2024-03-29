@@ -1,16 +1,18 @@
-// src/components/TaskInput.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTask } from '../store/actions';
 import '../styles/taskinput.css';
 
-const TaskInput = () => {
+const TaskInput = ({ tasks, setTasks, saveTasksToLocalStorage }) => {
   const [taskInput, setTaskInput] = useState('');
   const dispatch = useDispatch();
 
   const handleAddTask = () => {
     if (taskInput.trim() !== '') {
-      dispatch(addTask({ id: Date.now(), text: taskInput.trim(), completed: false }));
+      const newTask = { id: Date.now(), text: taskInput.trim(), completed: false };
+      dispatch(addTask(newTask));
+      setTasks([...tasks, newTask]);
+      saveTasksToLocalStorage([...tasks, newTask]);
       setTaskInput('');
     }
   };
